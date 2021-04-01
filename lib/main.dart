@@ -47,7 +47,7 @@ class _ListState extends State<ContactList> {
     return sortedList;
   }
   
-  List contactsView(List list) {
+  List contactsWithDividers(List list) {
     List result = [];
     String firstLetter = '';
     for(int i = 0; i < list.length; i++) {
@@ -70,16 +70,11 @@ class _ListState extends State<ContactList> {
           padding: EdgeInsets.only(left: 30),
           child: ListView(
             children: [
-              for(var item in contactsView(sortContacts()))
+              for(var item in contactsWithDividers(sortContacts()))
                 if(item is Map)
                   SingleContact(item, addToFavourites(item['name'], item['company']))
                 else
-                  Container(
-                      padding: EdgeInsets.only(left: 5),
-                      margin: EdgeInsets.only(bottom: 15),
-                      child: Text(
-                        item, 
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600, color: Colors.black45)))
+                  DividerLetters(item)
             ]
           )
         )
@@ -144,5 +139,26 @@ class SingleContact extends StatelessWidget {
         ],
       ),
     );
+  }
+}
+
+class DividerLetters extends StatelessWidget {
+  final text;
+
+  DividerLetters(this.text);
+
+  Widget build(BuildContext context) {
+    return 
+      Container(
+        padding: EdgeInsets.only(left: 5),
+        margin: EdgeInsets.only(bottom: 15),
+        child: Text(
+          text, 
+          style: TextStyle(
+            fontSize: 20, 
+            fontWeight: FontWeight.w600, 
+            color: Colors.black45)
+        )
+      );
   }
 }
